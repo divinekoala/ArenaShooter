@@ -12,19 +12,27 @@ public class Movement {
 	}
 
 	public void RotateToCursor(Vector2 cursor, GameObject targetToRotate){
-		Vector2 playerToMouse = cursor - (Vector2)targetToRotate.transform.position;
-
-		var newRotation = Quaternion.LookRotation(playerToMouse, Vector3.forward);
-		newRotation.x = 0;
-		newRotation.y = 0;
-		targetToRotate.transform.rotation = newRotation;
-
+		var objectPos = Camera.main.WorldToScreenPoint(targetToRotate.position);
+		cursor.x -= objectPos.x;
+		cursor.y -= objectPos.y;
+		targetToRotate.LookAt(cursor);
+		targetToRotate.position.z = 0;
+	
+	
+//		Vector2 playerToMouse = cursor - (Vector2)targetToRotate.transform.position;
+//
+//		var newRotation = Quaternion.LookRotation(playerToMouse, Vector3.forward);
+//		newRotation.x = 0;
+//		newRotation.y = 0;
+//		newRotation *= Quaternion.Euler(0,0,90);
+//		targetToRotate.transform.rotation = newRotation;
+		
 	}
 
 	public bool CharacterTurn(float cursorX, Transform transform, bool facingRight){
-		if (cursorX > transform.position.x && facingRight)
+		if (cursorX < transform.position.x && facingRight)
 			return Flip(facingRight, transform);
-		else if (cursorX < transform.position.x && !facingRight)
+		else if (cursorX > transform.position.x && !facingRight)
 			return Flip(facingRight, transform);
 
 		return facingRight;

@@ -36,7 +36,7 @@ public class Character : MonoBehaviour {
 	void FixedUpdate () {
 
 		grounded = Physics2D.OverlapCircle(groundcheck.position, groundRadius, whatIsGound);
-		h = Input.GetAxisRaw("Horizontal");
+		h = Input.GetAxis("Horizontal");
 
 		anim.SetFloat("Move", Mathf.Abs(h));
 
